@@ -9,7 +9,8 @@ class Quiz extends React.Component {
 		this.state = {
 			questions: [],
 			outcomes: [],
-			totals: []
+			totals: [],
+			locked: false
 		}
 		this.makeQuestion = this.makeQuestion.bind(this);
 		this.tally = this.tally.bind(this);
@@ -31,7 +32,7 @@ class Quiz extends React.Component {
 	makeQuestion(q,i) {
 		return (<Question 
 				key={i} title={q.title} choices={q.choices} type={q.type} required={q.required}
-				tally={(incr) => this.tally(i,incr)}
+				tally={(incr) => this.tally(i,incr)} isLocked={() => this.state.locked}
 				/>);
 	}
 
@@ -43,7 +44,6 @@ class Quiz extends React.Component {
 	}	
 
 	submit() {
-		// todo: lock questions until restart button is pressed
 		// ensure every required question has been answered
 		const isValid = this.state.questions
 			.filter((q,i) => this.state.required[i])
@@ -56,7 +56,7 @@ class Quiz extends React.Component {
 		const winner = this.state.outcomes
 			.map((o,i) => Object.assign({}, o, {total: totals[i]}))
 			.reduce((a,b) => (b.total > a.total) ? b : a);
-		this.setState({winner: winner});
+		this.setState({winner: winner, locked: true});
 	}
 
 	render() {

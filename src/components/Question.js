@@ -26,8 +26,12 @@ class Question extends React.Component {
 	}
 
 	requestChange(id) {
-		const {type} = this.props;
+		const {type, isLocked} = this.props;
 		const {answered, choices} = this.state;
+		if (isLocked()) {
+			console.log('locked; aborting')
+			return;
+		}
 		if (type === "radio") {
 			this.setState({
 				choices: choices.map((c,i) => {
