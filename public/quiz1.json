@@ -1,0 +1,27 @@
+{
+	"title": "My Quiz",
+	"outcomes": [
+		{"title": "Outcome A", "subheading": "The first outcome.", "text":"great job!"},
+		{"title": "Outcome B", "subheading": "The second outcome.", "text":"you did it!"}	
+	],
+	"questions": [
+		{
+			"title": "first question",
+			"type": "radio",
+			"required": "true",
+			"choices": [
+				{"text":"choice 1", "increments": [1,0]},
+				{"text":"choice 2", "increments": [0,1]}
+			]
+		}, 
+		{
+			"title": "second question",
+			"type": "checkbox",
+			"required": "false",
+			"choices": [
+				{"text":"choice 1", "increments":[1,0]},
+				{"text":"choice 2", "increments":[0,1]}
+			]
+		}
+	]
+}

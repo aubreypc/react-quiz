@@ -1,0 +1,36 @@
+{
+	"title": "How much do you love your GF?",
+	"outcomes": [
+		{"title": "so many", "subheading": "so many loves. wow! :)", 
+			"text": "you love your GF so very many. and i am so happy to hear that. how very wholesome!"},
+		{"title": "quite a lot of loves", "subheading": "very many loves indeed! <3 <3", 
+			"text": "how lovely! it's a nice number of loves. i am very pleased to hear this."},
+		{"title": "infinite loves", "subheading":"trippy.", 
+			"text": "this finite universe is incapable of containing all of the love you have for your GF. it is just seeping out of every single particle in ever single nook and cranny of the Milky Way. wonderful!"},
+		{"title": "crimes", "subheading":"simply not enough loves.", "text": "wow, you are really sad. you should love your GF and cherish her with every fiber of your being. please go directly to jail."}
+	],
+	"questions": [
+		{
+			"title":"Your girlfriend asks for a smooch. How many smooches do you give her?",
+			"type":"radio",
+			"required":"true",
+			"choices": [
+				{"text": "only one, for i am a smooch miser.", "increments":[0,0,0,1]},
+				{"text": "a reasonable number. perhaps 5 or 6.", "increments":[1,0,0,0]},
+				{"text": "20 smoocharoos, minimum.", "increments": [0,1,0,0]},
+				{"text": "i cannot answer this question, because i physically cannot stop smooching my gf.", "increments":[0,0,1,0]}
+			]
+		},
+		{
+			"title":"your GF says she's very hungry. what do you do?",
+			"type":"radio",
+			"required":"true",
+			"choices":[
+				{"text": "tell her to go eat dirt.", "increments":[0,0,0,1]},
+				{"text": "cook her a pancake in the shape of a little teddy bear", "increments":[1,0,0,0]},
+				{"text": "prepare her a succulent three-course meal, made from the freshest ingredients", "increments":[0,1,0,0]},
+				{"text": "my GF is never hungry, as i am constantly feeding her delicious soups.", "increments":[0,0,1,0]}
+			]
+		}
+	]
+}
