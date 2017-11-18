@@ -15,6 +15,7 @@ class Outcome extends React.Component {
 					<p>
 						{this.props.data.text}
 					</p>
+					<button onClick={this.props.onRestart}>Try again</button>
 				</div>		
 			);
 		} else {

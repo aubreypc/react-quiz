@@ -13,6 +13,17 @@ class Question extends React.Component {
 		this.tally = this.tally.bind(this);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		console.log(nextProps);
+		if (nextProps.state === "initial") {	
+			this.setState({
+				choices: this.props.choices
+					.map(c => Object.assign({checked: false}, c)),
+				answered: 0
+			});
+		}
+	}
+
 	tally() {
 		const checked = this.state.choices.filter(c => c.checked);
 		if (checked.length === 0) {

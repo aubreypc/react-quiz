@@ -10,11 +10,14 @@ class Quiz extends React.Component {
 			questions: [],
 			outcomes: [],
 			totals: [],
-			locked: false
+			locked: false,
 		}
+		
 		this.makeQuestion = this.makeQuestion.bind(this);
 		this.tally = this.tally.bind(this);
 		this.submit = this.submit.bind(this);
+		this.restart = this.restart.bind(this);
+		this.updateQuestionState = this.updateQuestionState.bind(this);
 	}
 
 	componentDidMount() {
@@ -22,7 +25,7 @@ class Quiz extends React.Component {
 			.then(res => res.json())
 			.then(data => this.setState({
 				title:data.title, 
-				questions: data.questions.map((q,i) => this.makeQuestion(q,i)),
+				questions: data.questions.map(q => Object.assign({state: "initial"}, q)),
 				outcomes: data.outcomes,
 				totals: data.questions.map(q => Array(data.outcomes.length).fill(0)),
 				required: data.questions.map(q => JSON.parse(q.required))
@@ -31,16 +34,21 @@ class Quiz extends React.Component {
 
 	makeQuestion(q,i) {
 		return (<Question 
-				key={i} title={q.title} choices={q.choices} type={q.type} required={q.required}
-				tally={(incr) => this.tally(i,incr)} isLocked={() => this.state.locked}
+				key={i} title={q.title} choices={q.choices} type={q.type} required={q.required} update={(s) => this.updateQuestionState(i,s)}
+				tally={(incr) => this.tally(i,incr)} isLocked={() => this.state.locked} state={q.state}
 				/>);
+	}
+
+	updateQuestionState(i, state) {
+		this.setState(prevState => {questions: prevState.questions.map((q,j) => (i === j) ? Object.assign(q, {state: state}) : q)});
 	}
 
 	tally(i, increments) {
 		console.log(increments);
-		this.setState({
-			totals: this.state.totals.map((t,key) => (key === i) ? increments : t)
-		}, () => console.log(this.state.totals));
+		this.setState(prevState => {return {
+			totals: prevState.totals.map((t,key) => (key === i) ? increments : t),
+			questions: prevState.questions.map(q => Object.assign(q, {state: "active"})),
+		}}, () => console.log(this.state.totals));
 	}	
 
 	submit() {
@@ -56,7 +64,17 @@ class Quiz extends React.Component {
 		const winner = this.state.outcomes
 			.map((o,i) => Object.assign({}, o, {total: totals[i]}))
 			.reduce((a,b) => (b.total > a.total) ? b : a);
-		this.setState({winner: winner, locked: true});
+		this.setState(prevState => {return {
+			winner: winner, locked: true, 
+			state: prevState.questions.map(q => Object.assign(q, {state: "finished"}))
+		}});
+	}
+
+	restart() {
+		this.setState(prevState => {return {
+			winner: null, locked: false, 
+			questions: prevState.questions.map(q => Object.assign(q, {state: "initial"}))
+		}});
 	}
 
 	render() {
@@ -65,10 +83,10 @@ class Quiz extends React.Component {
 			<div>
 			<h1>{title}</h1>
 			<ul>
-			{questions}
+			{questions.map((q,i) => this.makeQuestion(q,i))}
 			</ul>
 			<button onClick={this.submit}>Submit</button>
-			<Outcome data={this.state.winner} />
+			<Outcome data={this.state.winner} onRestart={() => this.restart()}/>
 			</div>
 		);
 	}
